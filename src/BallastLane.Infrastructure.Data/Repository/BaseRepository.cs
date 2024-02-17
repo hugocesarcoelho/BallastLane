@@ -1,9 +1,7 @@
 ﻿using BallastLane.Domain.Model;
 using BallastLane.Domain.Settings;
 using BallastLane.Infrastructure.Data.Repository.Interface;
-using Domain.Settings;
 using MongoDB.Driver;
-using System.Collections;
 
 namespace Infra.Data.Repository.Base
 {

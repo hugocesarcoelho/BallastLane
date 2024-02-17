@@ -40,7 +40,7 @@ namespace BallastLane.Infrastructure.IoC
         public static IMongoClient AddMongoClient(this IServiceCollection services, IProjectSettings projectSettings)
         {
             var mongoClient = new MongoClient(projectSettings.DatabaseConnectionString);
-            services.AddSingleton<IMongoClient>( mongoClient);
+            services.AddSingleton<IMongoClient>(mongoClient);
             return mongoClient;
         }
 

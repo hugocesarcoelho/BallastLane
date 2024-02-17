@@ -9,7 +9,7 @@ services:
   mongo:
     image: mongo:latest
     container_name: mongodb-container
-    command: mongod --auth
+    command: mongod --auth --bind_ip_all
     ports:
       - "27017:27017"
     volumes:

@@ -13,6 +13,7 @@ COPY ["src/BallastLane.Api/BallastLane.Api.csproj", "src/BallastLane.Api/"]
 COPY ["src/BallastLane.ApplicationService/BallastLane.ApplicationService.csproj", "src/BallastLane.ApplicationService/"]
 COPY ["src/BallastLane.Domain/BallastLane.Domain.csproj", "src/BallastLane.Domain/"]
 COPY ["src/BallastLane.Infrastructure.Data/BallastLane.Infrastructure.Data.csproj", "src/BallastLane.Infrastructure.Data/"]
+COPY ["src/BallastLane.Infrastructure.IoC/BallastLane.Infrastructure.IoC.csproj", "src/BallastLane.Infrastructure.IoC/"]
 RUN dotnet restore "./src/BallastLane.Api/BallastLane.Api.csproj"
 COPY . .
 WORKDIR "/src/src/BallastLane.Api"
