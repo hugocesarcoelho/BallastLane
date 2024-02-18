@@ -53,6 +53,12 @@ namespace BallastLane.ApplicationService
             return _mapper.Map<User, UserOutputDto>(response);
         }
 
+        public async Task<UserOutputDto> GetByUsernameAsync(string username)
+        {
+            var response = await _userRepository.GetByUsernameAsync(username);
+            return _mapper.Map<User, UserOutputDto>(response);
+        }
+
         public async Task<Result> UpdateAsync(string id, UserUpdateInputDto inputDto)
         {
             var model = _mapper.Map<UserUpdateInputDto, User>(inputDto);

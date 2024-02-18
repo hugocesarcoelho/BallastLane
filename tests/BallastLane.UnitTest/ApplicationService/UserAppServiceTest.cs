@@ -105,6 +105,24 @@ namespace BallastLane.UnitTest.ApplicationService
         }
 
         [Fact]
+        public async Task GetByUsernameAsync_WhenUserExists_ReturnsSuccess()
+        {
+            // arrange
+            var username = _fixture.Create<string>();
+            var user = _fixture.Create<User>();
+            var userOutputDto = _fixture.Create<UserOutputDto>();
+
+            _userRepositoryMock.Setup(x => x.GetByUsernameAsync(username)).ReturnsAsync(user);
+            _mapperMock.Setup(x => x.Map<User, UserOutputDto>(user)).Returns(userOutputDto);
+
+            // act
+            var result = await _userAppService.GetByUsernameAsync(username);
+
+            // assert
+            Assert.Equal(userOutputDto, result);
+        }
+
+        [Fact]
         public async Task UpdateAsync_WhenUserExists_ReturnsSuccess()
         {
             // arrange
