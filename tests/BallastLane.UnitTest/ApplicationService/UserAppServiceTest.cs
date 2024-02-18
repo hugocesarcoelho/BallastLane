@@ -155,5 +155,25 @@ namespace BallastLane.UnitTest.ApplicationService
             // assert
             Assert.True(result);
         }
+
+        [Fact]
+        public async Task ValidateAsync_WhenPasswordIsIncorrect_ReturnsFalse()
+        {
+            // arrange
+            var username = _fixture.Create<string>();
+            var password = _fixture.Create<string>();
+            var incorrectPassword = _fixture.Create<string>();
+            var passwordHash = PasswordHasher.HashPassword(password, _projectSettings.PasswordSalt);
+
+            var user = _fixture.Build<User>().With(x => x.Password, passwordHash).Create();
+
+            _userRepositoryMock.Setup(x => x.GetByUsernameAsync(username)).ReturnsAsync(user);
+
+            // act
+            var result = await _userAppService.ValidateAsync(username, incorrectPassword);
+
+            // assert
+            Assert.False(result);
+        }
     }
 }
