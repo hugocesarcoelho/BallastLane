@@ -4,6 +4,7 @@ using BallastLane.ApplicationService;
 using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Interface;
 using BallastLane.Domain.Model;
+using BallastLane.Domain.Settings;
 using BallastLane.Infrastructure.Data.Repository.Interface;
 using Moq;
 
@@ -18,10 +19,11 @@ namespace BallastLane.UnitTest.ApplicationService
 
         public UserAppServiceTest()
         {
+            var projectSettings = new Mock<IProjectSettings>();
             _userRepositoryMock = new Mock<IUserRepository>();
             _mapperMock = new Mock<IMapper>();
 
-            _userAppService = new UserAppService(_userRepositoryMock.Object, _mapperMock.Object);
+            _userAppService = new UserAppService(_userRepositoryMock.Object, projectSettings.Object, _mapperMock.Object);
             _fixture = new Fixture();
         }
 

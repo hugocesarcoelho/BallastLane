@@ -2,5 +2,6 @@
 {
     public class UserCreateInputDto : UserDto
     {
+        public string? Password { get; set; }
     }
 }

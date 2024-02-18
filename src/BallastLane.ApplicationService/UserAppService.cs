@@ -5,23 +5,30 @@ using BallastLane.Infrastructure.Data.Repository.Interface;
 using Domain.ValueObjects;
 using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Base;
+using BallastLane.ApplicationService.Service;
+using BallastLane.Domain.Settings;
+using Domain.Settings;
 
 namespace BallastLane.ApplicationService
 {
     public class UserAppService : IUserAppService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IProjectSettings _projectSettings;
         private readonly IMapper _mapper;
 
-        public UserAppService(IUserRepository userRepository, IMapper mapper)
+        public UserAppService(IUserRepository userRepository, IProjectSettings projectSettings, IMapper mapper)
         {
             _userRepository = userRepository;
+            _projectSettings = projectSettings;
             _mapper = mapper;
         }
 
         public async Task<Result<UserOutputDto>> CreateAsync(UserCreateInputDto inputDto)
         {
             var model = _mapper.Map<UserCreateInputDto, User>(inputDto);
+
+            inputDto.Password = PasswordHasher.HashPassword(model.Password, _projectSettings.PasswordSalt);
 
             var response = await _userRepository.CreateAsync(model);
 
