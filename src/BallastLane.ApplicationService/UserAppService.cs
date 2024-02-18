@@ -69,9 +69,10 @@ namespace BallastLane.ApplicationService
             return new Result();
         }
 
-        public Task<bool> ValidateAsync(string username, string password)
+        public async Task<bool> ValidateAsync(string username, string password)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetByUsernameAsync(username);
+            return user.Password == PasswordHasher.HashPassword(password, _projectSettings.PasswordSalt);
         }
     }
 }
