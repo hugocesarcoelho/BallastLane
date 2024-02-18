@@ -7,7 +7,6 @@ using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Base;
 using BallastLane.ApplicationService.Service;
 using BallastLane.Domain.Settings;
-using Domain.Settings;
 
 namespace BallastLane.ApplicationService
 {
@@ -68,6 +67,11 @@ namespace BallastLane.ApplicationService
             await _userRepository.UpdateAsync(id, model);
 
             return new Result();
+        }
+
+        public Task<bool> ValidateAsync(string username, string password)
+        {
+            throw new NotImplementedException();
         }
     }
 }

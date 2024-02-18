@@ -14,6 +14,11 @@ namespace BallastLane.Infrastructure.Data.Repository
             _collection = mongoDatabase.GetCollection<User>(nameof(User));
         }
 
+        public async Task<User> GetByUsernameAsync(string username)
+        {
+            return await _collection.Find(model => model.Username == username).FirstOrDefaultAsync();
+        }
+
         public async Task UpdateAsync(string id, User model)
         {
             await _collection.FindOneAndUpdateAsync(

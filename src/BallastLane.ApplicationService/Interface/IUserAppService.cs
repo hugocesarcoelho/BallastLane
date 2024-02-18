@@ -10,5 +10,6 @@ namespace BallastLane.ApplicationService.Interface
         Task DeleteAsync(string id);
         Task<UserOutputDto> GetByIdAsync(string id);
         Task<IEnumerable<UserOutputDto>> GetAllAsync(int offset, int fetch);
+        Task<bool> ValidateAsync(string username, string password);
     }
 }

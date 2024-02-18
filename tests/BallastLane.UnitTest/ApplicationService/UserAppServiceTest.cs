@@ -3,9 +3,11 @@ using AutoMapper;
 using BallastLane.ApplicationService;
 using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Interface;
+using BallastLane.ApplicationService.Service;
 using BallastLane.Domain.Model;
 using BallastLane.Domain.Settings;
 using BallastLane.Infrastructure.Data.Repository.Interface;
+using Domain.Settings;
 using Moq;
 
 namespace BallastLane.UnitTest.ApplicationService
@@ -14,17 +16,18 @@ namespace BallastLane.UnitTest.ApplicationService
     {
         private readonly Mock<IUserRepository> _userRepositoryMock;
         private readonly Mock<IMapper> _mapperMock;
+        private readonly IProjectSettings _projectSettings;
         private readonly IUserAppService _userAppService;
         private Fixture _fixture;
 
         public UserAppServiceTest()
         {
-            var projectSettings = new Mock<IProjectSettings>();
+            _fixture = new Fixture();
+            _projectSettings = new ProjectSettings() { PasswordSalt = _fixture.Create<string>() };
             _userRepositoryMock = new Mock<IUserRepository>();
             _mapperMock = new Mock<IMapper>();
 
-            _userAppService = new UserAppService(_userRepositoryMock.Object, projectSettings.Object, _mapperMock.Object);
-            _fixture = new Fixture();
+            _userAppService = new UserAppService(_userRepositoryMock.Object, _projectSettings, _mapperMock.Object);
         }
 
         [Fact]
@@ -132,6 +135,25 @@ namespace BallastLane.UnitTest.ApplicationService
 
             // assert
             Assert.True(result.HasErrors());
+        }
+
+        [Fact]
+        public async Task ValidateAsync_WhenPasswordIsCorrect_ReturnsSuccess()
+        {
+            // arrange
+            var username = _fixture.Create<string>();
+            var password = _fixture.Create<string>();
+            var passwordHash = PasswordHasher.HashPassword(password, _projectSettings.PasswordSalt);
+
+            var user = _fixture.Build<User>().With(x => x.Password, passwordHash).Create();
+
+            _userRepositoryMock.Setup(x => x.GetByUsernameAsync(username)).ReturnsAsync(user);
+
+            // act
+            var result = await _userAppService.ValidateAsync(username, password);
+
+            // assert
+            Assert.True(result);
         }
     }
 }
