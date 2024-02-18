@@ -1,5 +1,6 @@
 ﻿using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Interface;
+using BallastLane.Domain.ValueObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,7 @@ namespace BallastLane.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult<UserOutputDto>> CreateAsync(UserCreateInputDto userCreateInputDto)
         {
             var response = await _userAppService.CreateAsync(userCreateInputDto);
@@ -31,6 +33,7 @@ namespace BallastLane.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult<UserOutputDto>> UpdateAsync([Required] string id, UserUpdateInputDto userUpdateInputDto)
         {
             var response = await _userAppService.UpdateAsync(id, userUpdateInputDto);
@@ -44,6 +47,7 @@ namespace BallastLane.WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = Roles.Admin)]
         public async Task<ActionResult<UserOutputDto>> DeleteAsync(string id)
         {
             await _userAppService.DeleteAsync(id);

@@ -1,6 +1,7 @@
 ﻿using BallastLane.ApplicationService.Interface;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -35,6 +36,13 @@ namespace BallastLane.Api.Handlers
                 if (isValidCredentials)
                 {
                     var claims = new List<Claim>();
+
+                    var user = await _userAppService.GetByUsernameAsync(credentials[0]);
+
+                    if (user.IsAdmin)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, "admin"));
+                    }
 
                     var identity = new ClaimsIdentity(claims, "Basic");
 

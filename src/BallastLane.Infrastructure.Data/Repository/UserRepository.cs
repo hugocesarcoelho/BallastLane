@@ -26,6 +26,7 @@ namespace BallastLane.Infrastructure.Data.Repository
                 Builders<User>.Update
                     .Set(c => c.Name, model.Name)
                     .Set(c => c.Username, model.Username)
+                    .Set(c => c.IsAdmin, model.IsAdmin)
                     .Set(c => c.Email, model.Email),
                 new FindOneAndUpdateOptions<User> { ReturnDocument = ReturnDocument.After });
         }
