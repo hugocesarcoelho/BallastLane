@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\BallastLane.Api\BallastLane.Api.csproj" />
     <ProjectReference Include="..\..\src\BallastLane.ApplicationService\BallastLane.ApplicationService.csproj" />
     <ProjectReference Include="..\..\src\BallastLane.Domain\BallastLane.Domain.csproj" />
     <ProjectReference Include="..\..\src\BallastLane.Infrastructure.Data\BallastLane.Infrastructure.Data.csproj" />
