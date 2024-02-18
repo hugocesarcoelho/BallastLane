@@ -1,6 +1,8 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using BallastLane.ApplicationService;
+using BallastLane.ApplicationService.Base;
+using BallastLane.ApplicationService.Dto.Application;
 using BallastLane.ApplicationService.Dto.User;
 using BallastLane.ApplicationService.Interface;
 using BallastLane.ApplicationService.Service;
@@ -44,6 +46,23 @@ namespace BallastLane.UnitTest.ApplicationService
 
             // assert
             Assert.False(result.HasErrors());
+        }
+
+        [Fact]
+        public async Task CreateAsync_WhenUserAlreadyExists_ReturnsError()
+        {
+            // arrange
+            var inputDto = _fixture.Create<UserCreateInputDto>();
+            var user = _fixture.Create<User>();
+            var users = new List<User>();
+            _userRepositoryMock.Setup(x=> x.GetByUsernameAsync(inputDto.Username)).ReturnsAsync(user);
+
+            // act
+            var result = await _userAppService.CreateAsync(inputDto);
+
+            // assert
+            Assert.True(result.HasErrors());
+            Assert.Equal(result.Errors.FirstOrDefault().Key, MessageUtils.RecordAlreadyExistsCode);
         }
 
         [Fact]

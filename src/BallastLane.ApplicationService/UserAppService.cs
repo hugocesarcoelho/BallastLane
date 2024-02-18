@@ -25,6 +25,13 @@ namespace BallastLane.ApplicationService
 
         public async Task<Result<UserOutputDto>> CreateAsync(UserCreateInputDto inputDto)
         {
+            var user = await _userRepository.GetByUsernameAsync(inputDto.Username);
+
+            if (user is not null)
+            {
+                return new Result<UserOutputDto>(MessageUtils.RecordAlreadyExistsCode, MessageUtils.RecordAlreadyExistsMessage);
+            }
+
             var model = _mapper.Map<UserCreateInputDto, User>(inputDto);
 
             model.Password = PasswordHasher.HashPassword(model.Password, _projectSettings.PasswordSalt);
