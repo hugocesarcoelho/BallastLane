@@ -4,7 +4,6 @@ using BallastLane.ApplicationService.Mapping;
 using BallastLane.Domain.Settings;
 using BallastLane.Infrastructure.Data.Repository;
 using BallastLane.Infrastructure.Data.Repository.Interface;
-using BallastLane.ApplicationService.Interface;
 using Domain.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +19,7 @@ namespace BallastLane.Infrastructure.IoC
             {
                 DatabaseConnectionString = configuration["Database:ConnectionString"],
                 DatabaseName = configuration["Database:Name"],
+                PasswordSalt = configuration["PasswordSalt"],
             };
             services.AddSingleton<IProjectSettings>(settings);
             return settings;

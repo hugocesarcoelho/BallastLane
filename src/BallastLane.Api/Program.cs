@@ -1,18 +1,27 @@
+using BallastLane.Api.Extensions;
 using BallastLane.Infrastructure.IoC;
+using Findox.WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Services.AddSettings(builder.Configuration);
-var mongoClient = builder.Services.AddMongoClient(settings);
+var services = builder.Services;
+var settings = services.AddSettings(builder.Configuration);
+var mongoClient = services.AddMongoClient(settings);
 
-builder.Services
+services
     .AddMongoDatabase(mongoClient, settings)
     .AddEndpointsApiExplorer()
     .AddRouting(options => options.LowercaseUrls = true)
     .AddSwaggerGen()
     .AddApplicationService()
     .AddInfrastructureData(settings)
-    .AddControllers();
+    .AddControllers(options =>
+    {
+        options.Filters.Add(new HttpResponseExceptionFilter());
+    });
+
+services.AddSwagger();
+services.AddAuthenticationService();
 
 var app = builder.Build();
 
@@ -23,6 +32,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

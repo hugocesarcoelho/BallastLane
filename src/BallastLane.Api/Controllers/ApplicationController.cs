@@ -1,5 +1,6 @@
 ﻿using BallastLane.ApplicationService.Dto.Application;
 using BallastLane.ApplicationService.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +8,7 @@ namespace BallastLane.WebApi.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
+    [Authorize]
     public class ApplicationController : Controller
     {
         private readonly IApplicationAppService _applicationAppService;

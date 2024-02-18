@@ -175,5 +175,20 @@ namespace BallastLane.UnitTest.ApplicationService
             // assert
             Assert.False(result);
         }
+
+
+        [Fact]
+        public async Task ValidateAsync_WhenPasswordUserDontExists_ReturnsFalse()
+        {
+            // arrange
+            var username = _fixture.Create<string>();
+            var password = _fixture.Create<string>();
+
+            // act
+            var result = await _userAppService.ValidateAsync(username, password);
+
+            // assert
+            Assert.False(result);
+        }
     }
 }

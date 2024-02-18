@@ -27,7 +27,7 @@ namespace BallastLane.ApplicationService
         {
             var model = _mapper.Map<UserCreateInputDto, User>(inputDto);
 
-            inputDto.Password = PasswordHasher.HashPassword(model.Password, _projectSettings.PasswordSalt);
+            model.Password = PasswordHasher.HashPassword(model.Password, _projectSettings.PasswordSalt);
 
             var response = await _userRepository.CreateAsync(model);
 
@@ -72,6 +72,10 @@ namespace BallastLane.ApplicationService
         public async Task<bool> ValidateAsync(string username, string password)
         {
             var user = await _userRepository.GetByUsernameAsync(username);
+            if (user is null)
+            {
+                return false;
+            }
             return user.Password == PasswordHasher.HashPassword(password, _projectSettings.PasswordSalt);
         }
     }
