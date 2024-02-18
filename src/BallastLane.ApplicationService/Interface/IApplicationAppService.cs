@@ -1,4 +1,4 @@
-﻿using BallastLane.ApplicationService.Dto;
+﻿using BallastLane.ApplicationService.Dto.Application;
 using Domain.ValueObjects;
 
 namespace BallastLane.ApplicationService.Interface

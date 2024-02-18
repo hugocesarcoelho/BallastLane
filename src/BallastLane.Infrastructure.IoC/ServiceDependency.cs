@@ -4,6 +4,7 @@ using BallastLane.ApplicationService.Mapping;
 using BallastLane.Domain.Settings;
 using BallastLane.Infrastructure.Data.Repository;
 using BallastLane.Infrastructure.Data.Repository.Interface;
+using BallastLane.ApplicationService.Interface;
 using Domain.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +28,7 @@ namespace BallastLane.Infrastructure.IoC
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
             services.AddScoped<IApplicationAppService, ApplicationAppService>();
+            services.AddScoped<IUserAppService, UserAppService>();
             services.AddAutoMapper(typeof(AutoMapperProfile));
             return services;
         }
@@ -34,6 +36,7 @@ namespace BallastLane.Infrastructure.IoC
         public static IServiceCollection AddInfrastructureData(this IServiceCollection services, IProjectSettings projectSettings)
         {
             services.AddScoped<IApplicationRepository, ApplicationRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             return services;
         }
 

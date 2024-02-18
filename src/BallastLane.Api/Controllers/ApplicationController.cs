@@ -1,4 +1,4 @@
-﻿using BallastLane.ApplicationService.Dto;
+﻿using BallastLane.ApplicationService.Dto.Application;
 using BallastLane.ApplicationService.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +25,7 @@ namespace BallastLane.WebApi.Controllers
                 return BadRequest(response);
             }
 
-            return CreatedAtRoute(nameof(GetByIdAsync), new { id = response.Content.Id }, response.Content);
+            return CreatedAtRoute(nameof(GetApplicationByIdAsync), new { id = response.Content.Id }, response.Content);
         }
 
         [HttpPut("{id}")]
@@ -48,8 +48,8 @@ namespace BallastLane.WebApi.Controllers
             return Accepted();
         }
 
-        [HttpGet("{id}", Name = nameof(GetByIdAsync))]
-        public async Task<ActionResult<ApplicationOutputDto>> GetByIdAsync([Required] string id)
+        [HttpGet("{id}", Name = nameof(GetApplicationByIdAsync))]
+        public async Task<ActionResult<ApplicationOutputDto>> GetApplicationByIdAsync([Required] string id)
             => Ok(await _applicationAppService.GetByIdAsync(id));
 
         [HttpGet]

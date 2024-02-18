@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
 using BallastLane.ApplicationService;
-using BallastLane.ApplicationService.Dto;
+using BallastLane.ApplicationService.Dto.Application;
 using BallastLane.ApplicationService.Interface;
 using BallastLane.Domain.Model;
 using BallastLane.Infrastructure.Data.Repository.Interface;
